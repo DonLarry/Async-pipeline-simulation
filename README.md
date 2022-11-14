@@ -11,11 +11,11 @@ En el momento de hacer hallacas se reúnen varias personas para trabajar de form
 
 **Amarre de hallacas:** El encargado de amarrar las hallacas debe contabilizar las hallacas amarradas y ser capaz de responder consultas sobre hallacas amarradas y hallacas listas por amarrar, así como sacar las estadísticas de cuanto fue el tiempo para hacer las hallacas. El tiempo requerido para amarrar cada hallaca se puede modelar por medio de una distribución normal con media `M4` y desviación estándar `D4`.
 
-Se pide:
+**Se pide:**
 - Modelar cada una de las 4 tareas como un procesos independientes, cada proceso debe escribir por consola lo que está haciendo.
 - Además de los 4 procesos debe existir un proceso que obtenga y muestre los estados (libre/ocupado) de cada una de las personas.
 
-Observación: en este problema hay una única área común para compartir los subproductos, por lo que se debe garantizar que se eviten los problemas de Race Condition
+**Observación:** en este problema hay una única área común para compartir los subproductos, por lo que se debe garantizar que se eviten los problemas de Race Condition
 
 # Implementation
 
@@ -30,12 +30,12 @@ The HallacaTier worker has 2 threads, the main thread keeps listening for querie
 
 ## Brief runtime explanation
 
-When run.py is executed, it runs the server process.
-The server process prepares to serve, the OS gives it an available port, and the process sends the network address of the server to the main process (run.py) by using a pipe and starts serving in a secondary thread (this is necessary for allowing easy communication between the main process and the server)
-The main process then runs the 4 workers, and the query client with the network address as two arguments and then waits for all the workers to be ready to start the simulation.
-Every worker also waits for the other workers to start the simulation.
-When every worker is ready, the simulation starts, and the main process shows the state (free/busy) of the workers until the simulation finishes.
-While the simulation is started and even after that, the user can use the query client to request data at any moment (some messages will be shown in the HallacaTier console and could be opened new windows that show the statistics)
+When run.py is executed, it runs the server process.\
+The server process prepares to serve, the OS gives it an available port, and the process sends the network address of the server to the main process (run.py) by using a pipe and starts serving in a secondary thread (this is necessary for allowing easy communication between the main process and the server).\
+The main process then runs the 4 workers, and the query client with the network address as two arguments and then waits for all the workers to be ready to start the simulation.\
+Every worker also waits for the other workers to start the simulation.\
+When every worker is ready, the simulation starts, and the main process shows the state (free/busy) of the workers until the simulation finishes.\
+While the simulation is started and even after that, the user can use the query client to request data at any moment (some messages will be shown in the HallacaTier console and could be opened new windows that show the statistics).\
 When the simulation ends, the user can press Enter in the main process's console to kill the remaining processes.
 
 ## Shared memory
@@ -44,14 +44,14 @@ I used 2 different objects to save the shared data:
 * The `Var` object is a wrapper for any object with `get` and `set` methods.
 * The `Stack` object can `put` and `pop` any object type, and you can use `len` on it. 
 
-There's several shared objects, but the most important ones are the stacks: after each step of any hallaca's creation, the hallaca is put into the correspondent stack.
+There are several shared objects, but the most important ones are the stacks: after each step of any hallaca's creation, the hallaca is put into the correspondent stack.
 
-Note: every process is protected against race conditions.
+**Note:** every process is protected against race conditions.
 
 ## Statistics
 
 When the query client asks the HallacaTier for showing statistics, it will show 2:
-1. A graph with hallaca's starting time and finishing time represented with blue, and red dots. The x axis represents the id of each hallaca, and the y axis represents time.
+1. A graph with hallaca's starting time and finishing time represented with blue, and red dots. The x-axis represents the id of each hallaca, and the y-axis represents time.
 2. A histogram of the time it takes to create each hallaca
 
 ## Configuration
@@ -103,3 +103,29 @@ pip install -r requirements.txt
 ```sh
 python run.py
 ```
+
+## Screenshots
+I took some screenshots to give you an idea of how it looks like when you run it.
+
+### Query client
+![screenshot](https://i.ibb.co/MpdVkPV/2022-11-13-22h00-16.png)
+
+### Leaf preparator
+![screenshot](https://i.ibb.co/kmxRjfY/2022-11-14-01h10-44.png)
+
+### Dough placer
+![screenshot](https://i.ibb.co/FXjpfN9/2022-11-13-21h59-23.png)
+
+### Stew placer
+![screenshot](https://i.ibb.co/GJYJrTM/2022-11-13-21h59-51.png)
+
+### Statistics
+![screenshot](https://i.ibb.co/KWqH4S6/2022-11-13-22h01-12.png)
+![screenshot](https://i.ibb.co/p3xncdc/2022-11-13-22h01-34.png)
+
+### Hallaca tier (after showing the 3 queries)
+![screenshot](https://i.ibb.c5o/k3f18sZ/2022-11-13-22h02-45.png)
+
+### Main process (run.py)
+![screenshot](https://i.ibb.co/4Vm02MG/2022-11-13-22h04-06.png)
+![screenshot](https://i.ibb.co/hy9TbtN/2022-11-13-22h04-36.png)
