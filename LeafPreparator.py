@@ -9,6 +9,7 @@ class LeafPreparator(HallacaWorker):
 
     def prepare(self):
         """Prepares the hallaca and returns it"""
+        print('[1.a] preparando hoja')
         self.work()
         self.hallaca_id += 1
         hallaca = Hallaca(self.hallaca_id)
